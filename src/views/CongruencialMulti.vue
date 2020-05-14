@@ -1,5 +1,14 @@
 <template lang="pug">
     v-container(fluid)
+        v-snackbar(
+          v-model="snackbar"
+          :timeout="timeout"
+          bottom
+          right
+          color="success" 
+        )
+          v-icon(color="white" ) mdi-check-circle-outline
+          | Copiado!
         v-row
             v-col
                 v-card(raised)
@@ -64,6 +73,11 @@
                           v-toolbar-title Serie de números aleatorios
                           v-divider.mx-4(inset vertical)
                           div.flex-grow-1
+                          v-tooltip(left)
+                            template(v-slot:activator="{ on }")
+                              v-btn(icon v-on="on")
+                                v-icon(@click="copy") mdi-content-copy
+                            span Copiar serie
                           gx-tests( :serie="serie" :k="m")
 </template>
 <script>
@@ -87,6 +101,8 @@ export default {
       ],
       valid: true,
       alert: true,
+      snackbar: false,
+      timeout: 2000,
 
       seedRules: [
         (v) => !!v || "La semilla es requerida",
@@ -160,6 +176,15 @@ export default {
           alert("La semilla debe ser menor que el modulo M.");
         }
       }
+    },
+    copy() {
+      let aux = document.createElement("input");
+      aux.setAttribute("value", JSON.stringify(this.serie));
+      document.body.appendChild(aux);
+      aux.select();
+      document.execCommand("copy");
+      document.body.removeChild(aux);
+      this.snackbar = true;
     },
   },
 };
