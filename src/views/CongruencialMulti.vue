@@ -170,7 +170,7 @@ export default {
     },
     validate() {
       if (this.$refs.form.validate()) {
-        if (this.seed < this.m) {
+        if (parseInt(this.seed) < parseInt(this.m)) {
           this.generate();
         } else {
           alert("La semilla debe ser menor que el modulo M.");
