@@ -3,7 +3,7 @@
         v-row
             v-col
                 v-card(raised)
-                    v-card-title Metodo del congruencial Multiplicativo
+                    v-card-title Metodo del Congruencial Multiplicativo
                     v-card-text
                         v-form(
                           ref="form"
@@ -11,26 +11,30 @@
                           lazy-validation
                         )
                             v-row
-                                v-col()
+                                v-col(cols="12" sm="6")
                                     v-text-field(
                                         label="Semilla"
                                         v-model="seed"
+                                        hint="Se recomienda usar números primos"
                                         :rules="seedRules"
                                         validate-on-blur
                                     )
+                                v-col(cols="12" sm="6")
                                     v-text-field(
                                         label="Multiplicador A"
                                         v-model="a"
                                         :rules="aRules"
+                                        hint="Se recomienda usar números primos"
                                         validate-on-blur
                                     )
-                                v-col()
+                                v-col(cols="12" sm="6")
                                     v-text-field(
                                         label="modulo M"
                                         v-model="m"
                                         :rules="mRules"
                                         validate-on-blur
                                     )
+                                v-col(cols="12" sm="6")
                                     v-text-field(
                                         label="Cantidad de números a generar"
                                         v-model="n"
@@ -39,7 +43,7 @@
                                     )
                     v-card-actions
                         v-spacer
-                        v-btn( @click="validate" color="primary") Generar
+                        v-btn( @click="validate" outlined color="primary") Generar
             v-col
                 v-card(raised)
                     v-data-table(
@@ -48,11 +52,26 @@
                         :items-per-page="5"
                         :loading="loading"
                     )
+                      template(v-slot:top="{ items }")
+                        v-expand-transition
+                          v-alert(v-if="alert"  type="info" text dense ) 
+                            | Ahora puede comprobar la calidad de la serie de números generada presionando en el botón 
+                            v-icon(color="green" ) mdi-test-tube
+                            v-row(no-gutters)
+                              v-spacer
+                              v-btn(color="info" outlined x-small @click="alert = false") Ok
+                        v-toolbar(flat)
+                          v-toolbar-title Serie de números aleatorios
+                          v-divider.mx-4(inset vertical)
+                          div.flex-grow-1
+                          gx-tests( :serie="serie" :k="m")
 </template>
 <script>
 import axios from "@/api";
+import GxTests from "@/components/GxTests";
 export default {
   name: "CongruencialMultiplicativo",
+  components: { GxTests },
   data() {
     return {
       seed: null,
@@ -61,18 +80,19 @@ export default {
       n: null,
       loading: false,
       numbers: [],
+      serie: [],
       headers: [
         { text: "Indice", value: "index" },
         { text: "Numero", value: "number" },
       ],
       valid: true,
+      alert: true,
 
       seedRules: [
         (v) => !!v || "La semilla es requerida",
         (v) =>
           Number.isInteger(parseInt(v)) ||
           "La semilla debe ser un numero entero",
-        (v) => this.isPrime(v) || "La semilla debe ser primo",
         (v) =>
           !this.isDivisibility(v) ||
           "La semilla no debe ser divisible por 2 y 5",
@@ -81,7 +101,6 @@ export default {
       aRules: [
         (v) => !!v || "A es requerida",
         (v) => Number.isInteger(parseInt(v)) || "A debe ser un numero entero",
-        (v) => this.isPrime(v) || "A debe ser primo",
         (v) => v > 0 || "A debe ser mayor que 0",
       ],
       mRules: [
@@ -108,6 +127,7 @@ export default {
         a: this.a,
         n: this.n,
       });
+      this.serie = data;
       data = data.map((n, i) => ({ index: i + 1, number: n }));
       this.numbers = data;
       this.loading = false;
@@ -134,7 +154,11 @@ export default {
     },
     validate() {
       if (this.$refs.form.validate()) {
-        this.generate();
+        if (this.seed < this.m) {
+          this.generate();
+        } else {
+          alert("La semilla debe ser menor que el modulo M.");
+        }
       }
     },
   },

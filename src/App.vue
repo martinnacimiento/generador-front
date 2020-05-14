@@ -9,12 +9,12 @@
             v-list-item-title Home
         v-list-item(to="/fibonacci" link)
           v-list-item-action
-            v-icon mdi-home
+            v-icon mdi-numeric-1-box-outline 
           v-list-item-content
             v-list-item-title Fibonacci
         v-list-item(to="/congruencial-multiplicativo" link)
           v-list-item-action
-            v-icon mdi-home
+            v-icon mdi-numeric-2-box-outline
           v-list-item-content
             v-list-item-title Congruencial Multiplicativo
 
