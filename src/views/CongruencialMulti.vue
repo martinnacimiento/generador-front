@@ -27,6 +27,7 @@
                                         hint="Se recomienda usar números primos"
                                         :rules="seedRules"
                                         validate-on-blur
+                                        color="#010B40"
                                     )
                                 v-col(cols="12" sm="6")
                                     v-text-field(
@@ -35,6 +36,7 @@
                                         :rules="aRules"
                                         hint="Se recomienda usar números primos"
                                         validate-on-blur
+                                        color="#010B40"
                                     )
                                 v-col(cols="12" sm="6")
                                     v-text-field(
@@ -42,6 +44,7 @@
                                         v-model="m"
                                         :rules="mRules"
                                         validate-on-blur
+                                        color="#010B40"
                                     )
                                 v-col(cols="12" sm="6")
                                     v-text-field(
@@ -49,15 +52,16 @@
                                         v-model="n"
                                         :rules="nRules"
                                         validate-on-blur
+                                        color="#010B40"
                                     )
                     v-card-actions
                         v-spacer
-                        v-btn( @click="validate" outlined color="primary") Generar
+                        v-btn( @click="validate" outlined color="#010B40") Generar
             v-col
                 v-card(raised)
                     v-data-table(
                         :headers="headers"
-                        :items="numbers"
+                        :items="$store.getters.serie"
                         :items-per-page="5"
                         :loading="loading"
                     )
@@ -78,7 +82,7 @@
                               v-btn(icon v-on="on")
                                 v-icon(@click="copy") mdi-content-copy
                             span Copiar serie
-                          gx-tests( :serie="serie" :k="m")
+                          gx-tests( :serie="$store.state.serie" :k="m")
 </template>
 <script>
 import axios from "@/api";
@@ -93,8 +97,6 @@ export default {
       m: null,
       n: null,
       loading: false,
-      numbers: [],
-      serie: [],
       headers: [
         { text: "Indice", value: "index" },
         { text: "Numero", value: "number" },
@@ -143,9 +145,9 @@ export default {
         a: this.a,
         n: this.n,
       });
-      this.serie = data;
-      data = data.map((n, i) => ({ index: i + 1, number: n }));
-      this.numbers = data;
+      this.$store.commit("setSerie", data);
+      this.$store.commit("setDivider", this.m);
+      this.$store.commit("setTransformated", false);
       this.loading = false;
     },
     isPrime(number) {
@@ -179,7 +181,7 @@ export default {
     },
     copy() {
       let aux = document.createElement("input");
-      aux.setAttribute("value", JSON.stringify(this.serie));
+      aux.setAttribute("value", JSON.stringify(this.$store.state.serie));
       document.body.appendChild(aux);
       aux.select();
       document.execCommand("copy");

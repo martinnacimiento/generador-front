@@ -1,9 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import CongruencialMulti from "../views/CongruencialMulti";
-import Fibonacci from "../views/Fibonacci";
-
+import Stepper from "../views/Stepper";
 Vue.use(VueRouter);
 
 const routes = [
@@ -13,14 +11,9 @@ const routes = [
     component: Home,
   },
   {
-    path: "/fibonacci",
-    name: "fibonacci",
-    component: Fibonacci,
-  },
-  {
-    path: "/congruencial-multiplicativo",
-    name: "congruencial-multi",
-    component: CongruencialMulti,
+    path: "/generador",
+    name: "generador",
+    component: Stepper,
   },
   {
     path: "/about",

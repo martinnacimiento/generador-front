@@ -1,0 +1,13 @@
+{
+    "name": "generador-front",
+    "dockerFile": "Dockerfile",
+    "forwardPorts": [3000],
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+    },
+
+    "extensions": [
+        "mikestead.dotenv",
+        "sdras.vue-vscode-extensionpack"
+    ]
+}

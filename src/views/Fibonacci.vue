@@ -58,7 +58,7 @@
               v-card(raised)
                 v-data-table(
                     :headers="headers"
-                    :items="numbers"
+                    :items="$store.getters.serie"
                     :items-per-page="5"
                     :loading="loading"
                 )
@@ -79,7 +79,7 @@
                           v-btn(icon v-on="on")
                             v-icon(@click="copy") mdi-content-copy
                         span Copiar serie
-                      gx-tests( :serie="serie")
+                      gx-tests( :serie="$store.state.serie")
 </template>
 <script>
 import axios from "@/api";
@@ -93,8 +93,6 @@ export default {
       seed2: null,
       a: null,
       n: null,
-      numbers: [],
-      serie: [],
       headers: [
         { text: "Indice", value: "index" },
         { text: "Numero", value: "number" },
@@ -135,9 +133,9 @@ export default {
         a: this.a,
         n: this.n,
       });
-      this.serie = data;
-      data = data.map((n, i) => ({ index: i + 1, number: n }));
-      this.numbers = data;
+      this.$store.commit("setSerie", data);
+      this.$store.commit("setDivider", this.a);
+      this.$store.commit("setTransformated", false);
       this.loading = false;
     },
     isPrime(number) {
@@ -163,7 +161,7 @@ export default {
     },
     copy() {
       let aux = document.createElement("input");
-      aux.setAttribute("value", JSON.stringify(this.serie));
+      aux.setAttribute("value", JSON.stringify(this.$store.state.serie));
       document.body.appendChild(aux);
       aux.select();
       document.execCommand("copy");
