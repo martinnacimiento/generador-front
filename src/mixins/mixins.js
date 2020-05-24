@@ -2,7 +2,7 @@ export default {
   methods: {
     transformate(na, a, b) {
       na = parseInt(na) / parseInt(this.$store.state.divider);
-      return (na * (b - a) + a).toString();
+      return (na * (b - a) + a).toFixed(4).toString();
     },
     copy() {
       let aux = document.createElement("input");

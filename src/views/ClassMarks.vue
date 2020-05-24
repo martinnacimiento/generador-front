@@ -33,14 +33,23 @@
       v-col(cols="12" sm="6")
         v-text-field(label="Nombre" v-model="m.name" filled color="#010B40")
       v-col(cols="12" sm="6")
-        v-text-field(label="Probabilidad" v-model="m.probability" filled color="#010B40")
-
+        v-text-field(label="Probabilidad" v-model="m.expectedProbability" filled color="#010B40")
+    v-row
+      v-col
+        v-spacer
+        v-btn(@click="getClassMarks") Generar marcas de clases
+    v-row(v-if="dataset")
+      v-col
+        GxChart(:chartdata="dataset")
 </template>
 <script>
 import mixin from "@/mixins/mixins.js";
+import GxChart from "@/components/GxChart";
+import axios from "@/api";
 export default {
   name: "ClassMarks",
   mixins: [mixin],
+  components: { GxChart },
   data: () => ({
     marks: [],
     quantityClassMarks: null,
@@ -48,20 +57,55 @@ export default {
       { text: "Indice", value: "index" },
       { text: "Numero", value: "number" },
     ],
-    loading: false
+    loading: false,
+    dataset: null,
+    classMarks: null,
   }),
   methods: {
+    async getClassMarks() {
+      let { data } = await axios.post("classMarks", {
+        classMarks: this.marks,
+        serie: this.$store.state.serie,
+        minimum: this.$store.state.interval.min,
+        maximum: this.$store.state.interval.max,
+      });
+      this.classMarks = data;
+      this.dataset = this.getDataSet();
+    },
     generateInputs(n) {
       if (n >= 0 && n < 15) {
-        this.marks = []
+        this.marks = [];
         for (let index = 0; index < n; index++) {
-          this.marks.push({})
+          this.marks.push({});
         }
       } else {
-        this.marks = []
-        this.quantityClassMarks = 0
+        this.marks = [];
+        this.quantityClassMarks = 0;
       }
-    }
-  }
+    },
+    getDataSet() {
+      return {
+        labels: this.getLabels(),
+        datasets: [this.getExpected(), this.getObtained()],
+      };
+    },
+    getLabels() {
+      return this.classMarks.map((cm) => cm.name);
+    },
+    getExpected() {
+      return {
+        label: "Probabilidad esperada",
+        backgroundColor: "",
+        data: this.classMarks.map((cm) => cm.expectedProbability),
+      };
+    },
+    getObtained() {
+      return {
+        label: "Probabilidad obtenida",
+        backgroundColor: "",
+        data: this.classMarks.map((cm) => cm.obtainedProbability),
+      };
+    },
+  },
 };
 </script>

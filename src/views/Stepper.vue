@@ -67,7 +67,7 @@ export default {
   }),
   watch: {
     step(step) {
-      if (step == 3 && !this.$store.state.tranformated) {
+      if (step == 3 && !this.$store.state.transformated) {
         let serie = this.$store.state.serie.map((na) =>
           this.transformate(na, 0, 99)
         );
