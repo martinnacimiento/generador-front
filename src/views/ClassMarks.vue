@@ -1,5 +1,12 @@
 <template lang="pug">
   v-container(fluid)
+    v-snackbar(
+          v-model="snackbar"
+          :timeout="timeout"
+          bottom
+          right
+          color="error" 
+        ) La suma de las probabilidades debe ser 100%
     v-row
       v-col
         v-card(raised)
@@ -31,13 +38,13 @@
         )
     v-row(v-for="(m, index) in marks" :key="index")
       v-col(cols="12" sm="6")
-        v-text-field(label="Nombre" v-model="m.name" filled color="#010B40")
+        v-text-field(label="Nombre" :rules="rules" v-model="m.name" filled color="#010B40")
       v-col(cols="12" sm="6")
-        v-text-field(label="Probabilidad" v-model="m.expectedProbability" filled color="#010B40")
+        v-text-field(label="Probabilidad"  suffix="%" :rules="rules" v-model="m.expectedProbability" v-mask="'##'" filled color="#010B40")
     v-row
       v-col
         v-spacer
-        v-btn(@click="getClassMarks") Generar marcas de clases
+        v-btn(@click="getClassMarks" outlined color="#010B40") Generar marcas de clases
     v-row(v-if="dataset")
       v-col
         GxChart(:chartdata="dataset")
@@ -51,6 +58,8 @@ export default {
   mixins: [mixin],
   components: { GxChart },
   data: () => ({
+    snackbar: false,
+    timeout: 2000,
     marks: [],
     quantityClassMarks: null,
     headers: [
@@ -60,17 +69,27 @@ export default {
     loading: false,
     dataset: null,
     classMarks: null,
+    rules: [(v) => !!v || "El campo es requerido."],
   }),
   methods: {
     async getClassMarks() {
-      let { data } = await axios.post("classMarks", {
-        classMarks: this.marks,
-        serie: this.$store.state.serie,
-        minimum: this.$store.state.interval.min,
-        maximum: this.$store.state.interval.max,
-      });
-      this.classMarks = data;
-      this.dataset = this.getDataSet();
+      if (this.validate()) {
+        let marks = JSON.parse(JSON.stringify(this.marks));
+        marks.map((m) => {
+          m.expectedProbability = parseInt(m.expectedProbability) / 100;
+          return m;
+        });
+        let { data } = await axios.post("classMarks", {
+          classMarks: marks,
+          serie: this.$store.state.serie,
+          minimum: this.$store.state.interval.min,
+          maximum: this.$store.state.interval.max,
+        });
+        this.classMarks = data;
+        this.dataset = this.getDataSet();
+      } else {
+        this.snackbar = true;
+      }
     },
     generateInputs(n) {
       if (n >= 0 && n < 15) {
@@ -95,16 +114,27 @@ export default {
     getExpected() {
       return {
         label: "Probabilidad esperada",
-        backgroundColor: "",
+        backgroundColor: "#010B40",
         data: this.classMarks.map((cm) => cm.expectedProbability),
+        fill: false,
+        borderColor: "#010B40"
       };
     },
     getObtained() {
       return {
         label: "Probabilidad obtenida",
-        backgroundColor: "",
+        backgroundColor: "#8BBF56",
         data: this.classMarks.map((cm) => cm.obtainedProbability),
+        fill: false,
+        borderColor: "#8BBF56"
       };
+    },
+    validate() {
+      let result = 0;
+      this.marks.forEach((m) => {
+        result += parseInt(m.expectedProbability);
+      });
+      return result == 100;
     },
   },
 };
