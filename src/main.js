@@ -6,7 +6,10 @@ import router from './router'
 import './registerServiceWorker'
 import store from './store'
 import VueTheMask from 'vue-the-mask'
+import { values, valuesK } from "@/filters";
 
+Vue.filter("values", values);
+Vue.filter("valuesK", valuesK);
 Vue.use(VueRouter);
 Vue.use(VueTheMask)
 Vue.config.productionTip = false;

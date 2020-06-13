@@ -8,7 +8,9 @@ export default new Vuex.Store({
     serie: [],
     divider: null,
     interval: {},
-    transformated: false
+    transformated: false,
+    classMarks: [],
+    vars: [],
   },
   mutations: {
     setSerie(state, serie) {
@@ -22,7 +24,15 @@ export default new Vuex.Store({
     },
     setTransformated(state, value) {
       state.transformated = value;
-    }
+    },
+    setClassMarks(state, classMarks) {
+      state.classMarks = classMarks
+    },
+    setVars(state) {
+      let vars = state.classMarks.flatMap( cm => (cm.vars))
+      vars = vars.sort((a, b) => a.index - b.index);
+      state.vars = vars.map((v) => parseInt(v.var));
+    },
   },
   getters: {
     serie: (state) => {

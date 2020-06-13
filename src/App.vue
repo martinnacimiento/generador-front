@@ -17,6 +17,8 @@
       v-app-bar-nav-icon(v-if @click.stop="drawer = !drawer")
       v-toolbar-title Generador
       v-spacer
+      v-btn( @click="setDark()" text fab ).mr-2
+        v-icon mdi-theme-light-dark
       v-btn( @click="toAbout" outlined ) Sobre
 
     v-content
@@ -38,12 +40,17 @@ export default {
 
   data: () => ({
     drawer: null,
+    dark: false,
   }),
 
   methods: {
     toAbout() {
       this.$router.push("/about");
     },
+    setDark() {
+      this.dark = !this.dark;
+      this.$vuetify.theme.dark = this.dark;
+    }
   },
 };
 </script>

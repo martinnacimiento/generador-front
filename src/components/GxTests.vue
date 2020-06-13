@@ -20,7 +20,7 @@
                       v-list-item-content Chi-cuadrada
           v-card-actions
             v-spacer
-            v-btn(color="primary" @click="tests" outlined ) Lanzar tests
+            v-btn(color="light-blue darken-4" @click="tests" outlined ) Lanzar tests
 </template>
 <script>
 import axios from "@/api";
@@ -42,8 +42,8 @@ export default {
     loadingChiCuadrada: false,
     colorMonobits: "gray",
     colorChiCuadrada: "gray",
-    iconMonobits: "mdi-circle-outline",
-    iconChiCuadrada: "mdi-circle-outline",
+    iconMonobits: "mdi-check-circle-outline",
+    iconChiCuadrada: "mdi-check-circle-outline",
   }),
   methods: {
     tests() {

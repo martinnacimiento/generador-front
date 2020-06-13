@@ -1,5 +1,12 @@
 <template lang="pug">
     v-container(fluid)
+        v-snackbar(
+          v-model="snackbar"
+          :timeout="timeout"
+          bottom
+          right
+          color="success" 
+        ) La serie ha sido transformada!
         v-row
             v-col
                 v-card(raised)
@@ -18,7 +25,7 @@
                                         validate-on-blur
                                         placeholder="0"
                                         :disabled="$store.state.transformated"
-                                        color="#010B40"
+                                        color="light-blue darken-4"
                                     )
                                 v-col(cols="12" sm="6")
                                     v-text-field(
@@ -27,11 +34,11 @@
                                         validate-on-blur
                                         placeholder="99"
                                         :disabled="$store.state.transformated"
-                                        color="#010B40"
+                                        color="light-blue darken-4"
                                     )
                     v-card-actions
                         v-spacer
-                        v-btn( @click="validate" outlined color="#010B40") Transformar
+                        v-btn( @click="validate" outlined color="light-blue darken-4") Transformar
             v-col
                 v-card(raised)
                     v-data-table(
@@ -65,6 +72,8 @@ export default {
     ],
     valid: true,
     loading: false,
+    snackbar: false,
+    timeout: 5000,
   }),
   methods: {
     copy() {
@@ -87,6 +96,7 @@ export default {
           max: parseInt(this.max),
         });
         this.$store.commit("setTransformated", true);
+        this.snackbar = true;
       }
     },
   },

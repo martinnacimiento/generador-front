@@ -17,9 +17,14 @@
       v-divider
       v-stepper-step(
         color="#8BBF56"
-        editable
+        :complete="step > 2"
         step="3"
       ) Marcas de clase
+      v-divider
+      v-stepper-step(
+        color="#8BBF56"
+        step="4"
+      ) Simulacion
     v-stepper-items
       v-stepper-content(step="1")
         v-select(
@@ -29,12 +34,15 @@
         )
         CongruenciasMultiplicativo(v-if="methodSelected == 1")
         Fibonacci(v-if="methodSelected == 2")
-        v-btn(@click="next(2)" outlined color="#010B40") Siguiente
+        v-btn(@click="next(2)" outlined color="light-blue darken-4") Siguiente
       v-stepper-content(step="2")
         Transformation
-        v-btn(@click="next(3)" outlined color="#010B40") Siguiente
+        v-btn(@click="next(3)" outlined color="light-blue darken-4") Siguiente
       v-stepper-content(step="3")
         ClassMarks
+        v-btn(@click="next(4)" outlined color="light-blue darken-4") Siguiente
+      v-stepper-content(step="4")
+        Dam
 </template>
 <script>
 // Metodos generadores de series
@@ -47,6 +55,9 @@ import Transformation from "./Transformation";
 // Marcas de clase
 import ClassMarks from "./ClassMarks";
 
+// Represa
+import Dam from "./Dam";
+
 import mixin from "@/mixins/mixins.js";
 export default {
   name: "Stepper",
@@ -56,6 +67,7 @@ export default {
     Fibonacci,
     Transformation,
     ClassMarks,
+    Dam,
   },
   data: () => ({
     step: 1,

@@ -27,7 +27,7 @@
                                         hint="Se recomienda usar números primos"
                                         :rules="seedRules"
                                         validate-on-blur
-                                        color="#010B40"
+                                        color="light-blue darken-4"
                                     )
                                 v-col(cols="12" sm="6")
                                     v-text-field(
@@ -36,7 +36,7 @@
                                         :rules="aRules"
                                         hint="Se recomienda usar números primos"
                                         validate-on-blur
-                                        color="#010B40"
+                                        color="light-blue darken-4"
                                     )
                                 v-col(cols="12" sm="6")
                                     v-text-field(
@@ -44,7 +44,7 @@
                                         v-model="m"
                                         :rules="mRules"
                                         validate-on-blur
-                                        color="#010B40"
+                                        color="light-blue darken-4"
                                     )
                                 v-col(cols="12" sm="6")
                                     v-text-field(
@@ -52,11 +52,11 @@
                                         v-model="n"
                                         :rules="nRules"
                                         validate-on-blur
-                                        color="#010B40"
+                                        color="light-blue darken-4"
                                     )
                     v-card-actions
                         v-spacer
-                        v-btn( @click="validate" outlined color="#010B40") Generar
+                        v-btn( @click="validate" outlined color="light-blue darken-4") Generar
             v-col
                 v-card(raised)
                     v-data-table(
