@@ -1,3 +1,4 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/49adced4-2d81-4030-8a3b-831c5d57c26f/deploy-status)](https://app.netlify.com/sites/generador/deploys)
 # generador-front
 
 ## Project setup
