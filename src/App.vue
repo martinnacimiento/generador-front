@@ -19,7 +19,7 @@
       v-spacer
       v-btn( @click="setDark()" text fab ).mr-2
         v-icon mdi-theme-light-dark
-      v-btn( @click="toAbout" outlined ) Sobre
+      vs-button(@click="toAbout" flat border color="#FFF") Sobre
 
     v-content
       v-container(fluid)

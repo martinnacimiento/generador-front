@@ -27,6 +27,9 @@
                                         placeholder="0"
                                         :disabled="$store.state.transformated"
                                         color="light-blue darken-4"
+                                        filled
+                                        rounded
+                                        dense
                                     )
                                 v-col(cols="12" sm="6")
                                     v-text-field(
@@ -36,10 +39,13 @@
                                         placeholder="99"
                                         :disabled="$store.state.transformated"
                                         color="light-blue darken-4"
+                                        filled
+                                        rounded
+                                        dense
                                     )
                     v-card-actions
                         v-spacer
-                        v-btn( @click="validate" outlined color="light-blue darken-4") Transformar
+                        vs-button(@click="validate" size="large" circle) Transformar
             v-col
                 v-card(raised)
                     v-data-table(
@@ -97,8 +103,18 @@ export default {
           max: parseInt(this.max),
         });
         this.$store.commit("setTransformated", true);
-        this.snackbar = true;
+        this.openNotificaction();
       }
+    },
+    openNotificaction() {
+      this.$vs.notification({
+        progress: "auto",
+        icon: `<i class="bx bx-message-square-check" ></i>`,
+        color: "success",
+        position: "top-center",
+        title: "Transformación",
+        text: `La serie de números fue transformada dentro del rango [${this.min},${this.max}] con éxito.`,
+      });
     },
   },
 };

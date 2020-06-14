@@ -30,6 +30,8 @@
                                         validate-on-blur
                                         color="light-blue darken-4"
                                         filled
+                                        rounded
+                                        dense
                                     )
                                 v-col(cols="12" sm="6")
                                     v-text-field(
@@ -40,6 +42,8 @@
                                         validate-on-blur
                                         color="light-blue darken-4"
                                         filled
+                                        rounded
+                                        dense
                                     )
                                 v-col(cols="12" sm="6")
                                     v-text-field(
@@ -49,6 +53,8 @@
                                         validate-on-blur
                                         color="light-blue darken-4"
                                         filled
+                                        rounded
+                                        dense
                                     )
                                 v-col(cols="12" sm="6")
                                     v-text-field(
@@ -58,10 +64,14 @@
                                         validate-on-blur
                                         color="light-blue darken-4"
                                         filled
+                                        rounded
+                                        dense
                                     )
                     v-card-actions
                         v-spacer
-                        v-btn( @click="validate" outlined color="light-blue darken-4") Generar
+                        vs-button(@click="validate" size="large" circle) Generar
+                          template(#animate)
+                            v-icon(small color="white") mdi-cog-counterclockwise
             v-col
                 v-card(raised)
                     v-data-table(

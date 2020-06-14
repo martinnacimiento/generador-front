@@ -19,44 +19,26 @@
               @change="generateInputs"
               autofocus
               color="light-blue darken-4"
+              filled
+              rounded
+              dense
             )
             v-scale-transition(group)
               v-row(v-for="(m, index) in marks" :key="index")
                 v-col(cols="12" sm="4")
-                  v-text-field(label="Nombre" :rules="rules" v-model="m.name" filled color="light-blue darken-4")
+                  v-text-field(label="Nombre" :rules="rules" v-model="m.name" filled rounded dense color="light-blue darken-4")
                 v-col(cols="12" sm="4")
-                  v-text-field(label="Probabilidad" suffix="%" :rules="rules" v-model="m.expectedProbability" v-mask="'##'" filled color="light-blue darken-4")
+                  v-text-field(label="Probabilidad" suffix="%" :rules="rules" v-model="m.expectedProbability" v-mask="'##'" filled rounded dense color="light-blue darken-4")
                 v-col(cols="12" sm="4")
-                  v-text-field(label="Valor" :rules="rulesValue" v-model="m.value" filled color="light-blue darken-4")
+                  v-text-field(label="Valor" :rules="rulesValue" v-model="m.value" filled rounded dense color="light-blue darken-4" validate-on-blur)
                     template(v-slot:label) Valor 
                       small (opcional)
           v-card-actions
             v-spacer
-            v-btn(
-              @click="getClassMarks"
-              outlined color="light-blue darken-4"
-              :loading="loading"
-            ) Generar marcas
-      v-col(cols="12" sm="6")
-        v-card(raised)
-          v-data-table(
-              :headers="headers"
-              :items="$store.getters.serie"
-              :items-per-page="5"
-          )
-            template(v-slot:top="{ items }")
-              v-toolbar(flat)
-                v-toolbar-title Serie de números aleatorios
-                v-divider.mx-4(inset vertical)
-                div.flex-grow-1
-                v-tooltip(left)
-                  template(v-slot:activator="{ on }")
-                    v-btn(icon v-on="on")
-                      v-icon(@click="copy") mdi-content-copy
-                  span Copiar serie
-    v-row(v-if="dataset")
-      v-col
-        GxChart(:chartdata="dataset")
+            vs-button(@click="getClassMarks" :loading="loading" size="large" circle) Generar marcas
+      v-col(v-if="dataset" cols="12" sm="6")
+        v-card(raised).pa-4
+          GxChart(:chartdata="dataset")
 </template>
 <script>
 import mixin from "@/mixins/mixins.js";

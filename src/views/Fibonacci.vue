@@ -28,6 +28,9 @@
                                         v-model="seed1"
                                         hint="Se recomienda usar números primos"
                                         validate-on-blur
+                                        filled
+                                        rounded
+                                        dense
                                     )
                                 v-col(cols="12" sm="6")
                                     v-text-field(
@@ -36,6 +39,9 @@
                                         :rules="seedRules"
                                         hint="Se recomienda usar números primos"
                                         validate-on-blur
+                                        filled
+                                        rounded
+                                        dense
                                     )
                                 v-col(cols="12" sm="6")
                                     v-text-field(
@@ -44,6 +50,9 @@
                                         :rules="aRules"
                                         v-model="a"
                                         validate-on-blur
+                                        filled
+                                        rounded
+                                        dense
                                     )
                                 v-col(cols="12" sm="6")
                                     v-text-field(
@@ -51,10 +60,15 @@
                                         v-model="n"
                                         :rules="nRules"
                                         validate-on-blur
+                                        filled
+                                        rounded
+                                        dense
                                     )
                     v-card-actions
                         v-spacer
-                        v-btn( @click="validate" color="primary" outlined) Generar
+                        vs-button(@click="validate" size="large" circle) Generar
+                          template(#animate)
+                            v-icon(small color="white") mdi-cog-counterclockwise
             v-col
               v-card(raised)
                 v-data-table(

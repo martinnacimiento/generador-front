@@ -4,7 +4,7 @@
       v-col
         v-card(raised)
           v-card-title
-            span(class="title font-weight-light") Parametros
+            span(class="title font-weight-light") Parámetros
           v-card-text
             v-form(
               ref="form"
@@ -20,6 +20,8 @@
                     :rules="rules"
                     validate-on-blur
                     filled
+                    rounded
+                    dense
                     suffix="m3/s"
                   )
                 v-col(cols="12" sm="6")
@@ -30,6 +32,8 @@
                     :rules="rules"
                     validate-on-blur
                     filled
+                    rounded
+                    dense
                     suffix="m3/s"
                   )
                 v-col(cols="12" sm="6")
@@ -44,6 +48,8 @@
                     multiple
                     chips
                     filled
+                    rounded
+                    dense
                     suffix="m3/s"
                   )
                     template(v-slot:selection="{index, item}")
@@ -64,6 +70,8 @@
                     :rules="rules"
                     validate-on-blur
                     filled
+                    rounded
+                    dense
                     suffix="MV"
                   )
                 v-col(cols="12" sm="6")
@@ -75,6 +83,8 @@
                     :rules="rules"
                     validate-on-blur
                     filled
+                    rounded
+                    dense
                     suffix="m3/s"
                   )
                 v-col(cols="12" sm="6")
@@ -85,11 +95,13 @@
                     :rules="rules"
                     validate-on-blur
                     filled
+                    rounded
+                    dense
                     suffix="m3/s"
                   )
           v-card-actions
             v-spacer
-            v-btn(@click="validate" outlined color="light-blue darken-4") Simular represa
+            vs-button(@click="validate" size="large" circle) Simular represa
     v-row
       v-col(cols="12" sm="1" md="2")
         v-skeleton-loader(
