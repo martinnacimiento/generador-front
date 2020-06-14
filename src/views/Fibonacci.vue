@@ -12,7 +12,8 @@
         v-row
             v-col
                 v-card(raised)
-                    v-card-title Metodo de Fibonacci
+                    v-card-title.word-break
+                      span(class="title font-weight-light") Método de Fibonacci
                     v-card-text
                         v-form(
                           ref="form"
@@ -46,7 +47,7 @@
                                     )
                                 v-col(cols="12" sm="6")
                                     v-text-field(
-                                        label="Cantidad de numeros a generar"
+                                        label="Cantidad de números a generar"
                                         v-model="n"
                                         :rules="nRules"
                                         validate-on-blur
@@ -171,3 +172,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.word-break {
+  word-break: normal;
+}
+</style>

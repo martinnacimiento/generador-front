@@ -11,20 +11,22 @@
       v-stepper-step(
         color="#8BBF56"
         :editable="step > 2"
+        :complete="step > 2"
         step="2"
       ) Transformar serie
         small Opcional
       v-divider
       v-stepper-step(
         color="#8BBF56"
-        :complete="step > 2"
+        editable
+        :complete="step > 3"
         step="3"
       ) Marcas de clase
       v-divider
       v-stepper-step(
         color="#8BBF56"
         step="4"
-      ) Simulacion
+      ) Simulación
     v-stepper-items
       v-stepper-content(step="1")
         v-select(

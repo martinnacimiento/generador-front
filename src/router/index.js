@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Stepper from "../views/Stepper";
+import Error404 from "../views/404";
 Vue.use(VueRouter);
 
 const routes = [
@@ -24,6 +25,7 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
+  { path: "*", component: Error404 }
 ];
 
 const router = new VueRouter({

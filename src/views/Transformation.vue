@@ -10,7 +10,8 @@
         v-row
             v-col
                 v-card(raised)
-                    v-card-title Transformar serie dentro de un intervalo
+                    v-card-title.word-break
+                      span(class="title font-weight-light") Transformar serie dentro de un intervalo
                     v-card-text
                         v-form(
                           ref="form"
@@ -102,3 +103,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.word-break {
+  word-break: normal;
+}
+</style>

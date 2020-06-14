@@ -12,7 +12,8 @@
         v-row
             v-col
                 v-card(raised)
-                    v-card-title Metodo del Congruencial Multiplicativo
+                    v-card-title.word-break
+                      span(class="title font-weight-light") Método de Congruencias Multiplicativo
                     v-card-text
                         v-form(
                           ref="form"
@@ -28,6 +29,7 @@
                                         :rules="seedRules"
                                         validate-on-blur
                                         color="light-blue darken-4"
+                                        filled
                                     )
                                 v-col(cols="12" sm="6")
                                     v-text-field(
@@ -37,6 +39,7 @@
                                         hint="Se recomienda usar números primos"
                                         validate-on-blur
                                         color="light-blue darken-4"
+                                        filled
                                     )
                                 v-col(cols="12" sm="6")
                                     v-text-field(
@@ -45,6 +48,7 @@
                                         :rules="mRules"
                                         validate-on-blur
                                         color="light-blue darken-4"
+                                        filled
                                     )
                                 v-col(cols="12" sm="6")
                                     v-text-field(
@@ -53,6 +57,7 @@
                                         :rules="nRules"
                                         validate-on-blur
                                         color="light-blue darken-4"
+                                        filled
                                     )
                     v-card-actions
                         v-spacer
@@ -191,3 +196,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.word-break {
+  word-break: normal;
+}
+</style>
