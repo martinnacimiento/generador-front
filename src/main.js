@@ -8,7 +8,7 @@ import store from "./store";
 import VueTheMask from "vue-the-mask";
 import { values, valuesK } from "@/filters";
 import Vuesax from "vuesax";
-import "vuesax/dist/vuesax.css"; //Vuesax styles
+import "@/assets/vuesax.css"; //Vuesax styles
 import "boxicons/css/boxicons.min.css";
 Vue.use(Vuesax);
 
