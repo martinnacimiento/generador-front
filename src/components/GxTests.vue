@@ -2,7 +2,7 @@
   .center
     v-btn(icon @click="dialog=!dialog")
       v-icon(color="green") mdi-test-tube
-    vs-dialog(blur v-model="dialog")
+    vs-dialog(blur v-model="dialog" dark)
       template(#header)
         h2.not-margin Tests de aleatoriedad
       vs-alert(v-model="alert" closable danger)
