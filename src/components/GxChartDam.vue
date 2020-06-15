@@ -1,7 +1,7 @@
 <template lang="pug">
   div
-    GxChart(v-if="dataset1" :chartdata="dataset1")
-    GxChart(v-if="dataset2" :chartdata="dataset2")
+    GxChart(v-if="dataset1" :chartdata="dataset1" labelX="Dias" labelY="m3/s")
+    GxChart(v-if="dataset2" :chartdata="dataset2" labelX="Dias" labelY="Unidades")
 </template>
 <script>
 import GxChart from "@/components/GxChart";
