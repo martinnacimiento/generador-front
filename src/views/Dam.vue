@@ -146,7 +146,7 @@
           v-card(raised)
             v-card-title
               v-icon(large left color="#FBC02D") mdi-flash-off
-              span(class="title font-weight-light") Energia perdida
+              span(class="title font-weight-light") Energía perdida
             v-card-text(class="headline font-weight-bold") {{ resume.lostEnergy | valuesK}} 
               span(class="headline font-weight-light") MWh
       v-col(cols="12" sm="1" md="4")
@@ -183,7 +183,7 @@
           type="table"
         )
           v-card(raised)
-            v-card-text()
+            v-card-text
               v-data-table(
                 :headers="headers"
                 :items="simulation"
@@ -195,6 +195,12 @@
                 template(v-slot:item.alert="{ item }")
                   v-chip(:color="item.alert ? '#D32F2F':'gray'" dark)
                     v-icon mdi-shield-alert
+                template(v-slot:item.variability="{ item }")
+                  v-chip(width="200" :color="$store.state.vars[simulation.indexOf(item)] > 0 ? '#0288D1':'#D32F2F'" dark)
+                    v-avatar(left)
+                      v-icon {{ $store.state.vars[simulation.indexOf(item)] > 0 ? 'mdi-plus':'mdi-minus' }}
+                    | {{ Math.abs($store.state.vars[simulation.indexOf(item)]) }}
+                template(v-slot:item.drained="{ item }") {{ item.gates.filter(g => g).length * drainedPerGate }}
     v-row
       v-col(v-if="simulation.length > 0")
         v-skeleton-loader(
@@ -247,6 +253,8 @@ export default {
       { text: "Compuerta 2", value: "gate2", sortable: false },
       { text: "Compuerta 3", value: "gate3", sortable: false },
       { text: "Compuerta 4", value: "gate4", sortable: false },
+      { text: "Variabilidad de caudal", value: "variability", sortable: false },
+      { text: "Escurrido", value: "drained", sortable: false },
       { text: "Alerta roja", value: "alert", sortable: false },
     ],
     gates: [],
@@ -289,6 +297,16 @@ export default {
           value: `item.gate${index + 1}`,
         });
       }
+      this.headers.push({
+        text: "Variabilidad de caudal",
+        value: "variability",
+        sortable: false,
+      });
+      this.headers.push({
+        text: "Escurrido",
+        value: "drained",
+        sortable: false,
+      });
       this.headers.push({
         text: "Alerta roja",
         value: "alert",

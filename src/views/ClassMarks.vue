@@ -37,17 +37,20 @@
             v-spacer
             vs-button(@click="getClassMarks" :loading="loading" size="large" circle) Generar marcas
       v-col(v-if="dataset" cols="12" sm="6")
-        v-card(raised).pa-4
+        v-card(raised).pa-4.my-2
           GxChart(:chartdata="dataset")
+        v-card(raised).pa-4.my-2
+          GxBarchart(:chartdata="dataset2")
 </template>
 <script>
 import mixin from "@/mixins/mixins.js";
 import GxChart from "@/components/GxChart";
+import GxBarchart from "@/components/GxBarchart";
 import axios from "@/api";
 export default {
   name: "ClassMarks",
   mixins: [mixin],
-  components: { GxChart },
+  components: { GxChart, GxBarchart },
   data: () => ({
     snackbar: false,
     timeout: 5000,
@@ -59,9 +62,12 @@ export default {
     ],
     loading: false,
     dataset: null,
+    dataset2: null,
     classMarks: null,
     rules: [(v) => !!v || "El campo es requerido."],
-    rulesValue: [(v) => Number.isInteger(parseInt(v)) || "El campo debe ser numerico."],
+    rulesValue: [
+      (v) => Number.isInteger(parseInt(v)) || "El campo debe ser numerico.",
+    ],
   }),
   methods: {
     async getClassMarks() {
@@ -83,6 +89,7 @@ export default {
         this.$store.commit("setClassMarks", data);
         this.$store.commit("setVars");
         this.dataset = this.getDataSet();
+        this.dataset2 = this.getDataSet2();
       } else {
         this.snackbar = true;
       }
@@ -104,6 +111,12 @@ export default {
         datasets: [this.getExpected(), this.getObtained()],
       };
     },
+    getDataSet2() {
+      return {
+        labels: this.getLabels(),
+        datasets: [this.getAppearances()],
+      };
+    },
     getLabels() {
       return this.classMarks.map((cm) => cm.name);
     },
@@ -121,6 +134,15 @@ export default {
         label: "Probabilidad obtenida",
         backgroundColor: "#8BBF56",
         data: this.classMarks.map((cm) => cm.obtainedProbability),
+        fill: false,
+        borderColor: "#8BBF56",
+      };
+    },
+    getAppearances() {
+      return {
+        label: "Apariciones",
+        backgroundColor: "#8BBF56",
+        data: this.classMarks.map((cm) => cm.appearances),
         fill: false,
         borderColor: "#8BBF56",
       };
